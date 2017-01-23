@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 
-router.get('/sing_up', (req, res) => {
+router.get('/sign_up', (req, res) => {
   res.render('sign_up');
 });
 
