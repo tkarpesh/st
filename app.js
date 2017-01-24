@@ -7,7 +7,7 @@ let expressValidator = require('express-validator');
 let flash = require('connect-flash');
 let session = require('express-session');
 let passport = require('passport');
-let localStrategy = require('passport-local').Strategyl
+let localStrategy = require('passport-local').Strategy;
 let mongo = require('mongodb');
 let mongoose = require('mongoose');
 
