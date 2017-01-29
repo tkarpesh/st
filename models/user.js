@@ -40,3 +40,7 @@ module.exports.comparePasswords = (candidatePassword, hash, callback) => {
      callback(null, isMatch);
    })
 }
+
+module.exports.updateSingleUser = (user, query, callback) => {
+  User.update({_id: user._id}, query, callback);
+}

@@ -93,4 +93,37 @@ router.get('/logout', (req, res) => {
   res.redirect('/users/login');
 });
 
+router.get('/:user_id', (req, res) => {
+  res.render('show', { user: req.user });
+});
+
+router.get('/:user_id/edit', (req, res) => {
+  res.render('edit', { user: req.user });
+});
+
+router.post('/:user_id/update', (req, res) => {
+  let username = req.body.username;
+  let email = req.body.email;
+
+  req.checkBody('username', 'Name is required').notEmpty();
+  req.checkBody('email', 'Email is required').notEmpty();
+  req.checkBody('email', 'Email is not valid').isEmail();
+
+  let errors = req.validationErrors();
+
+  if (errors) {
+    res.render('edit', { errors: errors })
+  } else {
+    let newQuery = { username: username, email: email };
+
+    User.updateSingleUser(req.user, newQuery, (err, result) => {
+      if (err) throw err;
+
+      result ?
+        res.redirect('/users/:user_id') :
+        res.sendStatus(500);
+    });
+  }
+});
+
 module.exports = router;

@@ -1,0 +1,24 @@
+<h2 class="page-header">Edit Profile</h2>
+{{#if errors}}
+  {{#each errors}}
+    <div class="alert alert-danger">
+      {{msg}}
+    </div>
+  {{/each}}
+{{/if}}
+<form method="post" action="/users/{{user.id}}/update">
+  <div class="form-group">
+    <input type="hidden" name="_method" value='PUT'>
+  </div>
+
+  <div class="form-group">
+    <label>Username</label>
+    <input type="text" class="form-control" placeholder="Username" name="username" value={{user.username}}>
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <input type="email" class="form-control" placeholder="Email" name="email" value={{user.email}}>
+  </div>
+
+  <button type="submit" class="btn btn-info">Submit</button>
+</form>
