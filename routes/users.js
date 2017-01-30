@@ -126,4 +126,16 @@ router.post('/:user_id/update', (req, res) => {
   }
 });
 
+router.post('/:user_id/delete', (req, res) => {
+  User.findOneAndRemove({_id: req.user.id}, (err) => {
+    if (err) {
+      return res.render('edit', { errors: errors })
+    }
+
+    req.flash('success', 'Your account has been deleted.');
+    req.logout();
+    res.redirect('/users/login');
+  });
+});
+
 module.exports = router;

@@ -1,4 +1,10 @@
 {{#if user}}
   <h1>Hello, {{user.username}}</h1>
   <li role="presentation"><a href="/users/{{user.id}}/edit">Edit Profile</a></li>
+
+  <form action="/users/{{user.id}}/delete" method="post">
+    <div class="form-group">
+      <button type="submit" class="btn btn-danger">Delete Account</button>
+    </div>
+  </form>
 {{/if}}
