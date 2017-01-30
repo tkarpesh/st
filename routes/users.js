@@ -6,11 +6,11 @@ let LocalStrategy = require('passport-local').Strategy;
 let User = require('../models/user');
 
 router.get('/sign_up', (req, res) => {
-  res.render('sign_up');
+  res.render('users/sign_up');
 });
 
 router.get('/login', (req, res) => {
-  res.render('login');
+  res.render('users/login');
 });
 
 router.post('/sign_up', (req, res) => {
@@ -28,7 +28,7 @@ router.post('/sign_up', (req, res) => {
   let errors = req.validationErrors();
 
   if (errors) {
-    res.render('sign_up', { errors: errors })
+    res.render('users/sign_up', { errors: errors })
   } else {
     let newUser = new User({
       username: username,
@@ -38,7 +38,6 @@ router.post('/sign_up', (req, res) => {
 
     User.createUser(newUser, (err, user) => {
       if (err) throw err;
-      console.log(user);
     });
 
     req.flash('success_msg', 'You are registered');
@@ -94,11 +93,11 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/:user_id', (req, res) => {
-  res.render('show', { user: req.user });
+  res.render('users/show', { user: req.user });
 });
 
 router.get('/:user_id/edit', (req, res) => {
-  res.render('edit', { user: req.user });
+  res.render('users/edit', { user: req.user });
 });
 
 router.post('/:user_id/update', (req, res) => {
@@ -112,7 +111,7 @@ router.post('/:user_id/update', (req, res) => {
   let errors = req.validationErrors();
 
   if (errors) {
-    res.render('edit', { errors: errors })
+    res.render('users/edit', { errors: errors })
   } else {
     let newQuery = { username: username, email: email };
 
@@ -129,7 +128,7 @@ router.post('/:user_id/update', (req, res) => {
 router.post('/:user_id/delete', (req, res) => {
   User.findOneAndRemove({_id: req.user.id}, (err) => {
     if (err) {
-      return res.render('edit', { errors: errors })
+      return res.render('/users/edit', { errors: errors })
     }
 
     req.flash('success', 'Your account has been deleted.');
