@@ -1,1 +1,25 @@
-<p>Add a new article, {{user.name}}!</p>
+{{#if user}}
+  {{#if errors}}
+    {{#each errors}}
+      <div class="alert alert-danger">
+        {{msg}}
+      </div>
+    {{/each}}
+  {{/if}}
+  <form method="post" action="/articles/create">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" class="form-control" placeholder="Title" name="title">
+    </div>
+    <div class="form-group">
+      <label>Content</label>
+      <textarea type="text" class="form-control" placeholder="content" name="content">
+      </textarea>
+    </div>
+    <div class="form-group">
+      <input type="hidden" class="form-control" placeholder="userId" name="userId" value={{user.id}}>
+    </div>
+
+    <button type="submit" class="btn btn-info">Create</button>
+  </form>
+{{/if}}

@@ -14,3 +14,7 @@ let ArticleSchema = mongoose.Schema({
 });
 
 let Article = module.exports = mongoose.model('Article', ArticleSchema);
+
+module.exports.createArticle = (newArticle, callback) => {
+  newArticle.save(callback);
+};
