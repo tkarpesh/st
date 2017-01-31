@@ -7,11 +7,23 @@ router.get('/new', (req, res) => {
   res.render('articles/new', { user: req.user });
 });
 
-router.get('/index', (req, res) => {
+router.get('/', (req, res) => {
   Article.find((err, docs) => {
     if (err) throw err;
 
     res.render('articles/index', { articles: docs })
+  });
+});
+
+router.get('/:id', (req, res) => {
+  let articleId = req.params.id;
+
+  Article.findById(articleId, (err, article) => {
+    if (err) {
+      return res.redirect('articles/');
+    }
+
+    res.render('articles/show', { article: article });
   });
 });
 
@@ -38,7 +50,7 @@ router.post('/create', (req, res) => {
     });
 
     req.flash('success_msg', 'You are registered');
-    res.redirect('articles/index');
+    res.redirect('/');
   }
 });
 
