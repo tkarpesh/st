@@ -1,5 +1,7 @@
-<ul class="nav">
-  {{#each articles}}
-    <li role="presentation"><a href="/articles/{{_id}}">{{title}}</a></li>
-  {{/each}}
-</ul>
+{{#if user}}
+  <ul class="nav">
+    {{#each articles}}
+      <li role="presentation"><a href="/articles/{{_id}}">{{title}}</a></li>
+    {{/each}}
+  </ul>
+{{/if}}

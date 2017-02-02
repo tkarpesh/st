@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
   Article.find((err, docs) => {
     if (err) throw err;
 
-    res.render('articles/index', { articles: docs })
+    res.render('articles/index', { articles: docs, user: req.user })
   });
 });
 
@@ -24,15 +24,16 @@ router.get('/:id', (req, res) => {
     if (err) { return res.redirect('articles/'); }
 
     User.findById(article.userId, (err, user) => {
-      if (err) { return res.redirect('articles/'); }
-
-      let canManipulate = (currentUserName == user.username);
+      let [username, canManipulate] =
+        user ? [user.username, true] : ['DELETED', false];
 
       res.render(
         'articles/show',
         { article: article,
           canManipulate: canManipulate,
-          creatorName: user.username }
+          creatorName: username,
+          user: req.user
+        }
       );
     });
   });

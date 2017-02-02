@@ -1,21 +1,23 @@
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{article.title}}</h3>
-  </div>
-  <div class="panel-body">
-    {{article.content}}
+{{#if user}}
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{article.title}}</h3>
+    </div>
+    <div class="panel-body">
+      {{article.content}}
+    </div>
+
+    {{#if canManipulate}}
+      <li role="presentation"><a href="/articles/{{article._id}}/edit">Edit Article</a></li>
+      <form action="/articles/{{article.id}}/delete" method="post">
+        <div class="form-group">
+          <button type="submit" class="btn btn-danger">Remove Article</button>
+        </div>
+      </form>
+    {{/if}}
+    <div></div>
   </div>
 
-  {{#if canManipulate}}
-    <li role="presentation"><a href="/articles/{{article._id}}/edit">Edit Article</a></li>
-    <form action="/articles/{{article.id}}/delete" method="post">
-      <div class="form-group">
-        <button type="submit" class="btn btn-danger">Remove Article</button>
-      </div>
-    </form>
-  {{/if}}
-  <div></div>
-</div>
-
-<li role="presentation"><a href="/articles">Back</a></li>
-Created by {{creatorName}}
+  <li role="presentation"><a href="/articles">Back</a></li>
+  Created by {{creatorName}}
+{{/if}}
