@@ -91,4 +91,15 @@ router.post('/:id/update', (req, res) => {
   }
 });
 
+router.post('/:id/delete', (req, res) => {
+  Article.findOneAndRemove({_id: req.params.id}, (err) => {
+    if (err) {
+      return res.render(`/articles/${req.params.id}`, { errors: errors })
+    }
+
+    req.flash('success', 'Article has been deleted.');
+    res.redirect('/articles/');
+  });
+});
+
 module.exports = router;
