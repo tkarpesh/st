@@ -5,6 +5,11 @@
   <div class="panel-body">
     {{article.content}}
   </div>
+
+  {{#if "(user._id === article.userId)"}}
+    <li role="presentation"><a href="/articles/{{article._id}}/edit">Edit Article</a></li>
+  {{/if}}
+  <div></div>
 </div>
 
 <li role="presentation"><a href="/articles">Back</a></li>

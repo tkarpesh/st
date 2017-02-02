@@ -1,0 +1,28 @@
+{{#if article}}
+  <h2 class="page-header">Update Article</h2>
+  {{#if errors}}
+    {{#each errors}}
+      <div class="alert alert-danger">
+        {{msg}}
+      </div>
+    {{/each}}
+  {{/if}}
+  <form method="post" action="/articles/{{article.id}}/update">
+    <div class="form-group">
+      <input type="hidden" name="_method" value='PUT'>
+    </div>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" class="form-control" placeholder="title" name="title" value={{article.title}}>
+    </div>
+    <div class="form-group">
+      <label>Content</label>
+      <textarea type="text" class="form-control" placeholder="content" name="content">
+        {{article.content}}
+      </textarea>
+    </div>
+
+    <button type="submit" class="btn btn-info">Change</button>
+  </form>
+{{/if}}

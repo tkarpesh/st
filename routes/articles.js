@@ -57,4 +57,15 @@ router.post('/create', (req, res) => {
   }
 });
 
+router.get('/:id/edit', (req, res) => {
+  let articleId = req.params.id;
+
+  Article.findById(articleId, (err, article) => {
+    if (err) { return res.redirect('articles/'); }
+
+    res.render('articles/edit', { article: article });
+  });
+});
+
+
 module.exports = router;
