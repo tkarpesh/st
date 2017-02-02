@@ -67,5 +67,28 @@ router.get('/:id/edit', (req, res) => {
   });
 });
 
+router.post('/:id/update', (req, res) => {
+  let title = req.body.title;
+  let content = req.body.content;
+
+  req.checkBody('title', 'Title is required').notEmpty();
+  let errors = req.validationErrors();
+
+  let articleId = req.params.id;
+
+  if (errors) {
+    res.render('articles/edit', { errors: errors })
+  } else {
+    let newQuery = { title: title, content: content };
+
+    Article.updateArticle(articleId, newQuery, (err, result) => {
+      if (err) throw err;
+
+      result ?
+        res.redirect(`/articles/${articleId}`) :
+        res.sendStatus(500);
+    });
+  }
+});
 
 module.exports = router;
