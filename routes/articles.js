@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   let articleId = req.params.id;
+  let currentUserName = req.user.username;
 
   Article.findById(articleId, (err, article) => {
     if (err) { return res.redirect('articles/'); }
@@ -25,7 +26,14 @@ router.get('/:id', (req, res) => {
     User.findById(article.userId, (err, user) => {
       if (err) { return res.redirect('articles/'); }
 
-      res.render('articles/show', { article: article, user: user });
+      let canManipulate = (currentUserName == user.username);
+
+      res.render(
+        'articles/show',
+        { article: article,
+          canManipulate: canManipulate,
+          creatorName: user.username }
+      );
     });
   });
 });

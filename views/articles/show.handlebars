@@ -6,7 +6,7 @@
     {{article.content}}
   </div>
 
-  {{#if "(user._id === article.userId)"}}
+  {{#if canManipulate}}
     <li role="presentation"><a href="/articles/{{article._id}}/edit">Edit Article</a></li>
     <form action="/articles/{{article.id}}/delete" method="post">
       <div class="form-group">
@@ -18,4 +18,4 @@
 </div>
 
 <li role="presentation"><a href="/articles">Back</a></li>
-Created by {{user.username}}
+Created by {{creatorName}}
