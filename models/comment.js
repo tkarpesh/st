@@ -18,3 +18,7 @@ module.exports.findByArticleId = (articleId, callback) => {
   let query = { articleId: articleId };
   Comment.find(query, callback);
 };
+
+module.exports.createComment = (newComment, callback) => {
+  newComment.save(callback);
+};

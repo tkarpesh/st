@@ -18,7 +18,6 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   let articleId = req.params.id;
-  let currentUserName = req.user.username;
 
   Article.findById(articleId, (err, article) => {
     if (err) { return res.redirect('articles/'); }

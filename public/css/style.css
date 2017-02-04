@@ -85,3 +85,7 @@ body {
 footer {
   margin-top: 40px;
 }
+
+.glyphicon-star {
+  color: gray;
+}

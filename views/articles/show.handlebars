@@ -7,19 +7,30 @@
       {{article.content}}
     </div>
 
-    {{#if canManipulate}}
-      <li role="presentation"><a href="/articles/{{article._id}}/edit">Edit Article</a></li>
-      <form action="/articles/{{article.id}}/delete" method="post">
-        <div class="form-group">
-          <button type="submit" class="btn btn-danger">Remove Article</button>
-        </div>
-      </form>
-    {{/if}}
+    <div class="btn btn-group">
+      {{#if canManipulate}}
+        <a class="btn btn-default" href="/articles/{{article._id}}/edit">Edit Article</a>
+        <form action="/articles/{{article.id}}/delete" method="post">
+          <div class="form-group">
+            <button type="submit" class="btn btn-danger">Remove Article</button>
+          </div>
+        </form>
+      {{/if}}
 
-    <a class="btn btn-warning pull-right" href="/comments/{{article._id}}">All comments</a>
-    <div></div>
+      <a class="btn btn-warning pull-right" href="/comments/{{article._id}}">All comments</a>
+    </div>
+
+    <div>
+      <div class="pull-right">
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+        <span class="glyphicon glyphicon-star"></span>
+      </div>
+    </div>
   </div>
 
-  <li role="presentation"><a href="/articles">Back</a></li>
+  <a class="pull-right" href="/articles">Back</a>
   Created by {{creatorName}}
 {{/if}}
