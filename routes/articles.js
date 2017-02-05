@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   let articleId = req.params.id;
+  let currentUserId = req.user.id;
 
   Article.findById(articleId, (err, article) => {
     if (err) { return res.redirect('articles/'); }
@@ -31,7 +32,11 @@ router.get('/:id', (req, res) => {
         if (err) throw err;
 
         let gradesSum = 0;
-        grades.forEach(grade => { gradesSum += grade });
+        let currentUserGrade;
+
+        grades.forEach(grade => { gradesSum += grade.mark });
+
+        currentUserGrade = grades.find(grade => { return grade.userId === currentUserId });
 
         let rating = gradesSum / grades.length || 0;
 
@@ -41,7 +46,8 @@ router.get('/:id', (req, res) => {
             canManipulate: canManipulate,
             creatorName: username,
             user: req.user,
-            rating: rating
+            rating: rating,
+            currentUserMark: currentUserGrade ? currentUserGrade.mark : null
           }
         );
       });
@@ -121,27 +127,28 @@ router.post('/:id/delete', (req, res) => {
   });
 });
 
-router.post('/:id/updateGrade', (req, res) => {
-  let [userId, articleId] = [req.user.id, req.params.id];
+router.get('/:id/updateGrade/:mark', (req, res) => {
+  let [userId, articleId, mark] = [req.user.id, req.params.id, req.params.mark];
 
-  Grade.find(
-    {articleId: articleId, userId: userId}, (err, grade) => {
-      if (grade.length === 0) {
-        let newGrade = new Grade({
-          userId: userId,
-          articleId: articleId,
-          mark: 5
-        });
+  (mark > 0 && mark < 6) ?
+    Grade.find(
+      {articleId: articleId, userId: userId}, (err, grade) => {
+        if (grade.length === 0) {
+          let newGrade = new Grade({
+            userId: userId,
+            articleId: articleId,
+            mark: mark
+          });
 
-        Grade.createGrade(newGrade, (err, grade) => {
-          if (err) throw err;
-        });
+          Grade.createGrade(newGrade, (err, grade) => {
+            if (err) throw err;
+          });
 
-        req.flash('success_msg', 'Thanks for your grading');
-      }
+          req.flash('success_msg', 'Thanks for your grading');
+        }
+      }) : null;
 
-      res.redirect(`/articles/${req.params.id}`);
-    })
+  res.redirect(`/articles/${articleId}`);
 });
 
 module.exports = router;

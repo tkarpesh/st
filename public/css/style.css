@@ -89,3 +89,15 @@ footer {
 .glyphicon-star {
   color: gray;
 }
+
+.glyphicon-star:hover {
+  color: yellow;
+}
+
+.glyphicon-star:visited {
+  color: yellow;
+}
+
+.yellow {
+  color: yellow;
+}

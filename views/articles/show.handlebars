@@ -22,21 +22,31 @@
 
     <div>
       <div class="pull-right">
-        <form action="/articles/{{article.id}}/updateGrade" method="post">
-          <div class="form-group">
+        {{#if currentUserMark}}
+          <span>You Mark: {{currentUserMark}}</span>
+          <span>Rating: {{rating}}</span>
+        {{else}}
+          <a href="/articles/{{article._id}}/updateGrade/1">
             <span class="glyphicon glyphicon-star"></span>
+          </a>
+          <a href="/articles/{{article._id}}/updateGrade/2">
             <span class="glyphicon glyphicon-star"></span>
+          </a>
+          <a href="/articles/{{article._id}}/updateGrade/3">
             <span class="glyphicon glyphicon-star"></span>
+          </a>
+          <a href="/articles/{{article._id}}/updateGrade/4">
             <span class="glyphicon glyphicon-star"></span>
+          </a>
+          <a href="/articles/{{article._id}}/updateGrade/5">
             <span class="glyphicon glyphicon-star"></span>
-
-            <button type="submit" class="btn btn-success">Grade</button>
-          </div>
-        </form>
+          </a>
+        {{/if}}
       </div>
     </div>
   </div>
 
   <a class="pull-right" href="/articles">Back</a>
   Created by {{creatorName}}
+  {{currentUserMark}}
 {{/if}}
