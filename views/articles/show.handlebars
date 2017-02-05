@@ -22,11 +22,17 @@
 
     <div>
       <div class="pull-right">
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
+        <form action="/articles/{{article.id}}/updateGrade" method="post">
+          <div class="form-group">
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+
+            <button type="submit" class="btn btn-success">Grade</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

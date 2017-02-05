@@ -3,6 +3,7 @@ let router = express.Router();
 
 let Article = require('../models/article');
 let User = require('../models/user');
+let Grade = require('../models/grade');
 
 router.get('/new', (req, res) => {
   res.render('articles/new', { user: req.user });
@@ -26,14 +27,24 @@ router.get('/:id', (req, res) => {
       let [username, canManipulate] =
         user ? [user.username, true] : ['DELETED', false];
 
-      res.render(
-        'articles/show',
-        { article: article,
-          canManipulate: canManipulate,
-          creatorName: username,
-          user: req.user
-        }
-      );
+      Grade.find({articleId: articleId}, (err, grades) => {
+        if (err) throw err;
+
+        let gradesSum = 0;
+        grades.forEach(grade => { gradesSum += grade });
+
+        let rating = gradesSum / grades.length || 0;
+
+        res.render(
+          'articles/show',
+          { article: article,
+            canManipulate: canManipulate,
+            creatorName: username,
+            user: req.user,
+            rating: rating
+          }
+        );
+      });
     });
   });
 });
@@ -108,6 +119,29 @@ router.post('/:id/delete', (req, res) => {
     req.flash('success', 'Article has been deleted.');
     res.redirect('/articles/');
   });
+});
+
+router.post('/:id/updateGrade', (req, res) => {
+  let [userId, articleId] = [req.user.id, req.params.id];
+
+  Grade.find(
+    {articleId: articleId, userId: userId}, (err, grade) => {
+      if (grade.length === 0) {
+        let newGrade = new Grade({
+          userId: userId,
+          articleId: articleId,
+          mark: 5
+        });
+
+        Grade.createGrade(newGrade, (err, grade) => {
+          if (err) throw err;
+        });
+
+        req.flash('success_msg', 'Thanks for your grading');
+      }
+
+      res.redirect(`/articles/${req.params.id}`);
+    })
 });
 
 module.exports = router;
