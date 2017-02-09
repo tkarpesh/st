@@ -4,6 +4,7 @@ let router = express.Router();
 let Article = require('../models/article');
 let User = require('../models/user');
 let Grade = require('../models/grade');
+let Comment = require('../models/comment');
 
 router.get('/new', (req, res) => {
   res.render('articles/new', { user: req.user });
@@ -40,16 +41,21 @@ router.get('/:id', (req, res) => {
 
         let rating = gradesSum / grades.length || 0;
 
-        res.render(
-          'articles/show',
-          { article: article,
-            canManipulate: canManipulate,
-            creatorName: username,
-            user: req.user,
-            rating: rating,
-            currentUserMark: currentUserGrade ? currentUserGrade.mark : null
-          }
-        );
+        Comment.findByArticleId(articleId, (err, comments) => {
+          if (err) throw err;
+
+          res.render(
+            'articles/show',
+            { article: article,
+              canManipulate: canManipulate,
+              creatorName: username,
+              user: req.user,
+              rating: rating,
+              currentUserMark: currentUserGrade ? currentUserGrade.mark : null,
+              comments: comments
+            }
+          );
+        });
       });
     });
   });
