@@ -16,8 +16,6 @@
           </div>
         </form>
       {{/if}}
-
-      <a class="btn btn-warning pull-right" href="/comments/{{article._id}}">All comments</a>
     </div>
 
     <div>
@@ -49,4 +47,20 @@
   <a class="pull-right" href="/articles">Back</a>
   Created by {{creatorName}}
   {{currentUserMark}}
+
+  <div class="comments">
+    {{comments}}
+
+    <form method='get' action='#'>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea type="text" class="form-control" placeholder="message" name="message">
+        </textarea>
+      </div>
+
+      <input type="hidden" name="userId" value={{user.id}} />
+      <input type="hidden" name="articleId" value={{articleId}} />
+      <button type="submit" class="btn btn-info pull-right">Add a comment</button>
+    </form>
+  </div>
 {{/if}}
