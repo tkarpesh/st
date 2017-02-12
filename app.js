@@ -17,6 +17,7 @@ let db = mongoose.connection;
 
 require('./models/comment');
 require('./models/grade');
+require('./models/article');
 
 let routes = require('./routes/index');
 let users = require('./routes/users');

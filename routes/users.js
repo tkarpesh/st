@@ -2,9 +2,10 @@ let express = require('express');
 let router = express.Router();
 let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
+let mongoose = require('mongoose');
 
 let User = require('../models/user');
-let Article = require('../models/article');
+let Article = mongoose.model('Article');
 
 router.get('/sign_up', (req, res) => {
   res.render('users/sign_up');

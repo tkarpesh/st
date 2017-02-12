@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
 
-let Article = require('../models/article');
+let Article = mongoose.model('Article');
 let User = require('../models/user');
 let Grade = mongoose.model('Grade');
 let Comment = mongoose.model('Comment');
@@ -92,9 +92,7 @@ router.post('/create', (req, res) => {
       userId: userId
     });
 
-    Article.createArticle(newAritcle, (err, article) => {
-      if (err) throw err;
-    });
+    newAritcle.save((err, article) => { if (err) throw err });
 
     req.flash('success_msg', 'You are registered');
     res.redirect('/');
@@ -125,7 +123,7 @@ router.post('/:id/update', (req, res) => {
   } else {
     let newQuery = { title: title, content: content };
 
-    Article.updateArticle(articleId, newQuery, (err, result) => {
+    Article.update(articleId, newQuery, (err, result) => {
       if (err) throw err;
 
       result ?
