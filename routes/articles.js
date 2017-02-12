@@ -157,4 +157,32 @@ router.get('/:id/updateGrade/:mark', (req, res) => {
   res.redirect(`/articles/${articleId}`);
 });
 
+router.post('/:id/comment', (req, res) => {
+  let message = req.body.message;
+  let articleId = req.params.id;
+  let userId = req.user._id;
+
+  req.checkBody('message', 'Message is required').notEmpty();
+
+  let errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('error_msg', 'Message is empty');
+  } else {
+    let newComment = new Comment({
+      message: message,
+      articleId: articleId,
+      userId: userId
+    });
+
+    Comment.createComment(newComment, (err, comment) => {
+      if (err) throw err;
+    });
+
+    req.flash('success_msg', 'Thanks for your comment');
+  }
+
+  res.redirect(`/articles/${articleId}`);
+});
+
 module.exports = router;

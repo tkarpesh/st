@@ -49,9 +49,11 @@
   {{currentUserMark}}
 
   <div class="comments">
-    {{comments}}
+  {{#each comments}}
+    <div class="comment">{{this.message}}</div>
+  {{/each}}
 
-    <form method='get' action='#'>
+    <form method='post' action='/articles/{{article._id}}/comment'>
       <div class="form-group">
         <label>Message</label>
         <textarea type="text" class="form-control" placeholder="message" name="message">

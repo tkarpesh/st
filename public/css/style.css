@@ -101,3 +101,15 @@ footer {
 .yellow {
   color: yellow;
 }
+
+.comment {
+  height: 50px;
+
+  border: 1px solid cornflowerblue;
+
+  margin: 2px 0 2px 0;
+
+  text-align: right;
+
+  overflow-y: scroll;
+}
