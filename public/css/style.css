@@ -113,3 +113,7 @@ footer {
 
   overflow-y: scroll;
 }
+
+.current-user-info {
+  font-weight: bold;
+}

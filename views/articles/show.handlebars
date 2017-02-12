@@ -45,13 +45,19 @@
   </div>
 
   <a class="pull-right" href="/articles">Back</a>
-  Created by {{creatorName}}
-  {{currentUserMark}}
+  <div class='current-user-info'>
+    Created by {{creatorName}}
+  </div>
+  {{#if currentUserMark}}
+    <div class='current-user-info'>
+      Your mark {{currentUserMark}}
+    </div>
+  {{/if}}
 
   <div class="comments">
-  {{#each comments}}
-    <div class="comment">{{this.message}}</div>
-  {{/each}}
+    {{#each comments}}
+      <div class="comment">{{this.message}}</div>
+    {{/each}}
 
     <form method='post' action='/articles/{{article._id}}/comment'>
       <div class="form-group">
