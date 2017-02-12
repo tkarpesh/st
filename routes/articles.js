@@ -48,6 +48,14 @@ router.get('/:id', (req, res) => {
         Comment.findByArticleId(articleId, (err, comments) => {
           if (err) throw err;
 
+          let newComments = [];
+
+          comments.forEach(comment => {
+            User.getUserById(comment.userId, (err, user) => {
+              newComments.push({comment: comment, commenter: user});
+            })
+          });
+
           res.render(
             'articles/show',
             { article: article,
@@ -56,7 +64,7 @@ router.get('/:id', (req, res) => {
               user: req.user,
               rating: rating,
               currentUserMark: currentUserGrade ? currentUserGrade.mark : null,
-              comments: comments
+              comments: newComments
             }
           );
         });
@@ -164,7 +172,7 @@ router.get('/:id/updateGrade/:mark', (req, res) => {
 router.post('/:id/comment', (req, res) => {
   let message = req.body.message;
   let articleId = req.params.id;
-  let userName = req.user.username;
+  let userId = req.user._id;
 
   req.checkBody('message', 'Message is required').notEmpty();
 
@@ -176,7 +184,7 @@ router.post('/:id/comment', (req, res) => {
     let newComment = new Comment({
       message: message,
       articleId: articleId,
-      userName: userName
+      userId: userId
     });
 
     Comment.createComment(newComment, (err, comment) => {

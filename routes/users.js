@@ -95,7 +95,7 @@ router.get('/logout', (req, res) => {
 
 router.get('/:id', (req, res) => {
   let userId = req.params.id;
-  let canManage = userId === req.user._id;
+  let canManage = userId == req.user._id;
 
   User.getUserById(userId, (err, user) => {
     if (err) throw err;

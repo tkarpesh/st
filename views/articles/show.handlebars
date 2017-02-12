@@ -47,7 +47,7 @@
   <a class="pull-right" href="/articles">Back</a>
   <div class='current-user-info'>
     Created by
-    {{#if creator }}
+    {{#if creator}}
       <a href="/users/{{creator._id}}">{{creator.username}}</a>
     {{else}}
       DELETED
@@ -63,11 +63,11 @@
     {{#each comments}}
       <div class="comment">
         <div class='content'>
-          {{this.message}}
+          {{this.comment.message}}
         </div>
         <div class='current-user-info'>
-          By {{#if this.userName}}
-          <a href="/users/{{this.userName}}">{{this.userName}}</a>
+          By {{#if this.comment.userId}}
+          <a href="/users/{{this.comment.userId}}">{{this.commenter.username}}</a>
         {{else}}
           DELETED
         {{/if}}

@@ -5,10 +5,12 @@ let CommentSchema = mongoose.Schema({
     type: String,
   },
   articleId: {
-    type: String
+    type: mongoose.Schema.Types.ObjectId,
+    reference: 'Article'
   },
-  userName: {
-    type: String
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    reference: 'User'
   }
 });
 
