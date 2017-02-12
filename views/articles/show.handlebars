@@ -61,7 +61,11 @@
           {{this.message}}
         </div>
         <div class='current-user-info'>
-          By {{this.userName}}
+          By {{#if this.userName}}
+          {{this.userName}}
+        {{else}}
+          DELETED
+        {{/if}}
         </div>
       </div>
     {{/each}}
