@@ -27,7 +27,11 @@ router.get('/:id', (req, res) => {
 
     User.findById(article.userId, (err, user) => {
       let [username, canManipulate] =
-        user ? [user.username, true] : ['DELETED', false];
+        user ?
+          user.id === currentUserId ?
+            [req.user.username, true]:
+            [user.username, false] :
+          ['DELETED', false];
 
       Grade.find({articleId: articleId}, (err, grades) => {
         if (err) throw err;
