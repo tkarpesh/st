@@ -16,6 +16,7 @@ mongoose.connect('mongodb://localhost/st');
 let db = mongoose.connection;
 
 require('./models/comment');
+require('./models/grade');
 
 let routes = require('./routes/index');
 let users = require('./routes/users');

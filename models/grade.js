@@ -12,8 +12,4 @@ let GradeSchema = mongoose.Schema({
   }
 });
 
-let Grade = module.exports = mongoose.model('Grade', GradeSchema);
-
-module.exports.createGrade = (newGrade, callback) => {
-  newGrade.save(callback);
-};
+mongoose.model('Grade', GradeSchema);

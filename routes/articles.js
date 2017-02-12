@@ -4,7 +4,7 @@ let mongoose = require('mongoose');
 
 let Article = require('../models/article');
 let User = require('../models/user');
-let Grade = require('../models/grade');
+let Grade = mongoose.model('Grade');
 let Comment = mongoose.model('Comment');
 
 router.get('/new', (req, res) => {
@@ -159,9 +159,7 @@ router.get('/:id/updateGrade/:mark', (req, res) => {
             mark: mark
           });
 
-          Grade.createGrade(newGrade, (err, grade) => {
-            if (err) throw err;
-          });
+          newGrade.save((err, grade) => { if (err) throw err });
 
           req.flash('success_msg', 'Thanks for your grading');
         }
