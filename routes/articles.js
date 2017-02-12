@@ -26,12 +26,12 @@ router.get('/:id', (req, res) => {
     if (err) { return res.redirect('articles/'); }
 
     User.findById(article.userId, (err, user) => {
-      let [username, canManipulate] =
+      let [creator, canManipulate] =
         user ?
           user.id === currentUserId ?
-            [req.user.username, true]:
-            [user.username, false] :
-          ['DELETED', false];
+            [req.user, true]:
+            [user, false] :
+          [null, false];
 
       Grade.find({articleId: articleId}, (err, grades) => {
         if (err) throw err;
@@ -52,7 +52,7 @@ router.get('/:id', (req, res) => {
             'articles/show',
             { article: article,
               canManipulate: canManipulate,
-              creatorName: username,
+              creator: creator,
               user: req.user,
               rating: rating,
               currentUserMark: currentUserGrade ? currentUserGrade.mark : null,

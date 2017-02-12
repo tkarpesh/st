@@ -46,7 +46,12 @@
 
   <a class="pull-right" href="/articles">Back</a>
   <div class='current-user-info'>
-    Created by {{creatorName}}
+    Created by
+    {{#if creator }}
+      <a href="/users/{{creator._id}}">{{creator.username}}</a>
+    {{else}}
+      DELETED
+    {{/if}}
   </div>
   {{#if currentUserMark}}
     <div class='current-user-info'>
@@ -62,7 +67,7 @@
         </div>
         <div class='current-user-info'>
           By {{#if this.userName}}
-          {{this.userName}}
+          <a href="/users/{{this.userName}}">{{this.userName}}</a>
         {{else}}
           DELETED
         {{/if}}

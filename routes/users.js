@@ -4,6 +4,7 @@ let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 
 let User = require('../models/user');
+let Article = require('../models/article');
 
 router.get('/sign_up', (req, res) => {
   res.render('users/sign_up');
@@ -92,8 +93,26 @@ router.get('/logout', (req, res) => {
   res.redirect('/users/login');
 });
 
-router.get('/:user_id', (req, res) => {
-  res.render('users/show', { user: req.user });
+router.get('/:id', (req, res) => {
+  let userId = req.params.id;
+  let canManage = userId === req.user._id;
+
+  User.getUserById(userId, (err, user) => {
+    if (err) throw err;
+
+    if (user) {
+      Article.find({userId: user._id}, (err, articles) => {
+        if (err) throw err;
+
+        res.render(
+          'users/show',
+          { user: user, canManage: canManage, articles: articles }
+        );
+      });
+    } else {
+      res.redirect('/');
+    }
+  });
 });
 
 router.get('/:user_id/edit', (req, res) => {
