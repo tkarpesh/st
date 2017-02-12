@@ -56,7 +56,14 @@
 
   <div class="comments">
     {{#each comments}}
-      <div class="comment">{{this.message}}</div>
+      <div class="comment">
+        <div class='content'>
+          {{this.message}}
+        </div>
+        <div class='current-user-info'>
+          By {{this.userName}}
+        </div>
+      </div>
     {{/each}}
 
     <form method='post' action='/articles/{{article._id}}/comment'>

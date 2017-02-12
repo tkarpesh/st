@@ -7,7 +7,7 @@ let CommentSchema = mongoose.Schema({
   articleId: {
     type: String
   },
-  userId: {
+  userName: {
     type: String
   }
 });

@@ -160,7 +160,7 @@ router.get('/:id/updateGrade/:mark', (req, res) => {
 router.post('/:id/comment', (req, res) => {
   let message = req.body.message;
   let articleId = req.params.id;
-  let userId = req.user._id;
+  let userName = req.user.username;
 
   req.checkBody('message', 'Message is required').notEmpty();
 
@@ -172,7 +172,7 @@ router.post('/:id/comment', (req, res) => {
     let newComment = new Comment({
       message: message,
       articleId: articleId,
-      userId: userId
+      userName: userName
     });
 
     Comment.createComment(newComment, (err, comment) => {
