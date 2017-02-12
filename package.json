@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "transpile-es2015": "babel src -d lib",
     "start": "./node_modules/.bin/cross-env NODE_ENV=development ./node_modules/.bin/nodemon app.js"
   },
   "eslintConfig": {
@@ -38,7 +39,6 @@
     "passport": "0.3.2",
     "passport-http": "0.3.0",
     "passport-local": "1.0.0",
-
     "co": "~4.6.0",
     "compression": "~1.6.2",
     "connect-mongo": "~1.3.1",
@@ -60,6 +60,8 @@
     "babel-eslint": "~7.1.0",
     "babel-preset-stage-0": "~6.16.0",
     "babel-tape-runner": "~2.0.1",
+    "babel-cli": "^6.18.0",
+    "babel-preset-latest": "^6.16.0",
     "eslint": "~3.12.0",
     "nodemon": "1.11.0",
     "supertest": "*",

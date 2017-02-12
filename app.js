@@ -15,6 +15,8 @@ mongoose.connect('mongodb://localhost/st');
 
 let db = mongoose.connection;
 
+require('./models/comment');
+
 let routes = require('./routes/index');
 let users = require('./routes/users');
 let articles = require('./routes/articles');

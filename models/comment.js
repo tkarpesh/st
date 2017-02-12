@@ -14,13 +14,4 @@ let CommentSchema = mongoose.Schema({
   }
 });
 
-let Comment = module.exports = mongoose.model('Comment', CommentSchema);
-
-module.exports.findByArticleId = (articleId, callback) => {
-  let query = { articleId: articleId };
-  Comment.find(query, callback);
-};
-
-module.exports.createComment = (newComment, callback) => {
-  newComment.save(callback);
-};
+mongoose.model('Comment', CommentSchema);

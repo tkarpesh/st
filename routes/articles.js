@@ -1,10 +1,11 @@
 let express = require('express');
 let router = express.Router();
+let mongoose = require('mongoose');
 
 let Article = require('../models/article');
 let User = require('../models/user');
 let Grade = require('../models/grade');
-let Comment = require('../models/comment');
+let Comment = mongoose.model('Comment');
 
 router.get('/new', (req, res) => {
   res.render('articles/new', { user: req.user });
@@ -45,7 +46,7 @@ router.get('/:id', (req, res) => {
 
         let rating = gradesSum / grades.length || 0;
 
-        Comment.findByArticleId(articleId, (err, comments) => {
+        Comment.find({ articleId: articleId }, (err, comments) => {
           if (err) throw err;
 
           let newComments = [];
@@ -187,7 +188,7 @@ router.post('/:id/comment', (req, res) => {
       userId: userId
     });
 
-    Comment.createComment(newComment, (err, comment) => {
+    newComment.save((err, comment) => {
       if (err) throw err;
     });
 
