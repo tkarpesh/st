@@ -3,7 +3,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 
 let Article = mongoose.model('Article');
-let User = require('../models/user');
+let User = mongoose.model('User');
 let Grade = mongoose.model('Grade');
 let Comment = mongoose.model('Comment');
 
@@ -52,7 +52,7 @@ router.get('/:id', (req, res) => {
           let newComments = [];
 
           comments.forEach(comment => {
-            User.getUserById(comment.userId, (err, user) => {
+            User.findById(comment.userId, (err, user) => {
               newComments.push({comment: comment, commenter: user});
             })
           });
