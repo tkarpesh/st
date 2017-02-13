@@ -2,9 +2,11 @@ let express = require('express');
 let router = express.Router();
 let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
+let mongoose = require('mongoose');
+let bcrypt = require('bcryptjs');
 
-let User = require('../models/user');
-let Article = require('../models/article');
+let User = mongoose.model('User');
+let Article = mongoose.model('Article');
 
 router.get('/sign_up', (req, res) => {
   res.render('users/sign_up');
@@ -31,36 +33,42 @@ router.post('/sign_up', (req, res) => {
   if (errors) {
     res.render('users/sign_up', { errors: errors })
   } else {
-    let newUser = new User({
-      username: username,
-      email: email,
-      password: password
-    });
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password, salt, (err, hash) => {
+        let newUser = new User({
+          username: username,
+          email: email,
+          password: hash
+        });
 
-    User.createUser(newUser, (err, user) => {
-      if (err) throw err;
-    });
+        newUser.save((err, user) => {
+          if (err) throw err;
+        });
 
-    req.flash('success_msg', 'You are registered');
-    res.redirect('/users/login');
+        req.flash('success_msg', 'You are registered');
+        res.redirect('/users/login');
+      });
+    });
   }
 });
 
 passport.use(new LocalStrategy((username, password, done) => {
-  User.getUserByUsername(username, (err, user) => {
+  User.findOne({ username: username }, (err, user) => {
     if (err) throw err;
 
     if (!user) {
       return done(null, false, { message: 'Unknown user' });
     }
 
-    User.comparePasswords(password, user.password, (err, isMatch) => {
-      if (err) throw err;
+    bcrypt.compare(password, user.password, (err, isMatch) => {
+      console.log(password);
+      console.log(user.password);
+
 
       return isMatch ?
         done(null, user) :
         done(null, false, { message: 'invalid password' });
-    })
+    });
   })
 }));
 
@@ -69,9 +77,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  User.getUserById(id, (err, user) => {
-    done(err, user);
-  })
+  User.findById(id, (err, user) => { done(err, user) });
 });
 
 router.post(
@@ -97,7 +103,7 @@ router.get('/:id', (req, res) => {
   let userId = req.params.id;
   let canManage = userId == req.user._id;
 
-  User.getUserById(userId, (err, user) => {
+  User.findById(userId, (err, user) => {
     if (err) throw err;
 
     if (user) {
@@ -134,7 +140,7 @@ router.post('/:user_id/update', (req, res) => {
   } else {
     let newQuery = { username: username, email: email };
 
-    User.updateSingleUser(req.user, newQuery, (err, result) => {
+    User.update(req.user._id, newQuery, (err, result) => {
       if (err) throw err;
 
       result ?

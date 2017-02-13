@@ -1,10 +1,11 @@
 let express = require('express');
 let router = express.Router();
+let mongoose = require('mongoose');
 
-let Article = require('../models/article');
-let User = require('../models/user');
-let Grade = require('../models/grade');
-let Comment = require('../models/comment');
+let Article = mongoose.model('Article');
+let User = mongoose.model('User');
+let Grade = mongoose.model('Grade');
+let Comment = mongoose.model('Comment');
 
 router.get('/new', (req, res) => {
   res.render('articles/new', { user: req.user });
@@ -45,13 +46,13 @@ router.get('/:id', (req, res) => {
 
         let rating = gradesSum / grades.length || 0;
 
-        Comment.findByArticleId(articleId, (err, comments) => {
+        Comment.find({ articleId: articleId }, (err, comments) => {
           if (err) throw err;
 
           let newComments = [];
 
           comments.forEach(comment => {
-            User.getUserById(comment.userId, (err, user) => {
+            User.findById(comment.userId, (err, user) => {
               newComments.push({comment: comment, commenter: user});
             })
           });
@@ -91,9 +92,7 @@ router.post('/create', (req, res) => {
       userId: userId
     });
 
-    Article.createArticle(newAritcle, (err, article) => {
-      if (err) throw err;
-    });
+    newAritcle.save((err, article) => { if (err) throw err });
 
     req.flash('success_msg', 'You are registered');
     res.redirect('/');
@@ -124,7 +123,7 @@ router.post('/:id/update', (req, res) => {
   } else {
     let newQuery = { title: title, content: content };
 
-    Article.updateArticle(articleId, newQuery, (err, result) => {
+    Article.update(articleId, newQuery, (err, result) => {
       if (err) throw err;
 
       result ?
@@ -158,9 +157,7 @@ router.get('/:id/updateGrade/:mark', (req, res) => {
             mark: mark
           });
 
-          Grade.createGrade(newGrade, (err, grade) => {
-            if (err) throw err;
-          });
+          newGrade.save((err, grade) => { if (err) throw err });
 
           req.flash('success_msg', 'Thanks for your grading');
         }
@@ -187,7 +184,7 @@ router.post('/:id/comment', (req, res) => {
       userId: userId
     });
 
-    Comment.createComment(newComment, (err, comment) => {
+    newComment.save((err, comment) => {
       if (err) throw err;
     });
 
