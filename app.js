@@ -11,7 +11,12 @@ let localStrategy = require('passport-local').Strategy;
 let mongo = require('mongodb');
 let mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/st');
+const MONGOLAB_URI = 'mongodb://example:example@ds053312.mongolab.com:53312/todolist';
+
+mongoose.connect(MONGOLAB_URI, function (error) {
+    if (error) console.error(error);
+    else console.log('mongo connected');
+});
 
 let db = mongoose.connection;
 
