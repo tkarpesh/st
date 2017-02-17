@@ -10,6 +10,7 @@ let passport = require('passport');
 let localStrategy = require('passport-local').Strategy;
 let mongo = require('mongodb');
 let mongoose = require('mongoose');
+
 const MONGOLAB_URI = 'mongodb://example:example@ds053312.mongolab.com:53312/todolist';
 
 mongoose.connect(MONGOLAB_URI, function (error) {
